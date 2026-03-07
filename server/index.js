@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import pool from "./db.js";
 import safehouseRoutes from "./routes/safehouses.js";
+import survivorsRouter from "./routes/survivors.js";
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.get("/api/db-test", async (req, res) => {
       .json({ success: false, error: "Database connection failed" });
   }
 });
+
+app.use("/api/survivors", survivorsRouter);
 
 const PORT = process.env.PORT || 3000;
 
