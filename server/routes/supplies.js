@@ -3,7 +3,7 @@ import pool from '../db.js'
 
 const router = express.Router();
 
-router.get('/api/supplies', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM supplies');
         res.status(200).json(result.rows);
