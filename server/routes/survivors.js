@@ -45,6 +45,18 @@ router.post("/", async (req, res) => {
         safehouse_id
     } = req.body;
 
+    if (!firstname || !lastname) {
+            return res.status(400).json({
+                error: "firstname and lastname are required!"
+            });
+        }
+
+    if(age < 0){
+        return res.status(400).json({
+            error: "Age must greater than 0!"
+        });
+    }
+
     try {
         const result = await pool.query(
             `INSERT INTO survivors
@@ -53,6 +65,7 @@ router.post("/", async (req, res) => {
             RETURNING *`,
         [firstname, lastname, age, skill, health_status, safehouse_id]
         );
+
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error("Error creating survivor:", error);
