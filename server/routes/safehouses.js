@@ -12,3 +12,22 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch safehouses" });
   }
 });
+
+// GET one safehouse by id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query("SELECT * FROM safehouses WHERE id = $1", [
+      id,
+    ]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Safehouse not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch safehouse" });
+  }
+});
