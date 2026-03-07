@@ -9,7 +9,8 @@ router.get("/", async (req, res) => {
     const result = await pool.query("SELECT * FROM survivors");
     res.status(200).json(result.rows);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error fetching all survivors:", error);
+    res.status(500).json({ error: "Failed to fetch all survivors" });
   }
 });
 
@@ -28,10 +29,35 @@ router.get("/:id", async (req, res) => {
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error fetching survivor:", error);
+        res.status(500).json({ error: "Failed to fetch this survivor" });
     }
 });
 
-// 
+// CREATE a new survivor
+router.post("/", async (req, res) => {
+    const {
+        firstname,
+        lastname,
+        age,
+        skill,
+        health_status,
+        safehouse_id
+    } = req.body;
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO survivors
+            (firstname, lastname, age, skill, health_status, safehouse_id)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *`,
+        [firstname, lastname, age, skill, health_status, safehouse_id]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error("Error creating survivor:", error);
+        res.status(500).json({ error: "Failed to create survivor" });
+    }
+})
 
 export default router;
