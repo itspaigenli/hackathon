@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import suppliesRoutes from "./routes/supplies.js";
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.get("/api/db-test", async (req, res) => {
       .json({ success: false, error: "Database connection failed" });
   }
 });
+
+app.use('/api/supplies', suppliesRoutes);
 
 const PORT = process.env.PORT || 3000;
 
