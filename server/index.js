@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import survivorsRouter from "./routes/survivors.js";
 import suppliesRoutes from "./routes/supplies.js";
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.get("/api/db-test", async (req, res) => {
   }
 });
 
+app.use("/api/survivors", survivorsRouter);
 app.use('/api/supplies', suppliesRoutes);
 
 const PORT = process.env.PORT || 3000;
