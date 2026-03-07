@@ -1,4 +1,7 @@
+import express from 'express'
 import pool from '../db.js'
+
+const router = express.Router();
 
 export const getAllSupplies = async (req, res) => {
     try {
