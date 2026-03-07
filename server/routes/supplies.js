@@ -26,7 +26,7 @@ router.delete('/:id', async (req, res) => {
 
         res.status(200).json({ message: `The supply "${result.rows[0].name}" was deleted!` })
     } catch (error) {
-        console.error('Error with deleting supply: , error');
+        console.error('Error with deleting supply: ', error);
         res.status(500).json({ error: 'Error! Could not delete supply' });
     }
 });
