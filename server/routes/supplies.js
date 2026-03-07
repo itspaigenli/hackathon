@@ -3,7 +3,7 @@ import pool from '../db.js'
 
 const router = express.Router();
 
-export const getAllSupplies = async (req, res) => {
+router.get('/api/supplies', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM supplies');
         res.status(200).json(result.rows);
@@ -11,4 +11,4 @@ export const getAllSupplies = async (req, res) => {
         console.error('Error with getting supplies: ', error);
         res.status(500).json({ error: 'Error! Could not get supplies!' });
     }
-}
+});
