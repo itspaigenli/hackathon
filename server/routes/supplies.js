@@ -12,3 +12,5 @@ router.get('/api/supplies', async (req, res) => {
         res.status(500).json({ error: 'Error! Could not get supplies!' });
     }
 });
+
+export default router;
