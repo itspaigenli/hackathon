@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
             });
         }
 
-    if(age < 0){
+    if(age === undefined || age < 0){
         return res.status(400).json({
             error: "Age must greater than 0!"
         });
@@ -70,6 +70,56 @@ router.post("/", async (req, res) => {
     } catch (error) {
         console.error("Error creating survivor:", error);
         res.status(500).json({ error: "Failed to create survivor" });
+    }
+})
+
+// UPDATE a survivor
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const {
+        firstname,
+        lastname,
+        age,
+        skill,
+        health_status,
+        safehouse_id
+    } = req.body;
+
+    if (!firstname || !lastname) {
+            return res.status(400).json({
+                error: "firstname and lastname are required!"
+            });
+        }
+
+    if(age === undefined || age < 0){
+        return res.status(400).json({
+            error: "Age must greater than 0!"
+        });
+    }
+
+    try{
+        const result = await pool.query(
+            `UPDATE survivors
+            SET firstname = $1,
+                lastname = $2,
+                age = $3,
+                skill = $4,
+                health_status = $5,
+                safehouse_id = $6
+            WHERE id = $7
+            RETURNING *`,
+            [firstname, lastname, age, skill, health_status, safehouse_id, id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Survivor not found" });
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error("Error updating survivor:", error);
+        res.status(500).json({ error: "Failed to update survivor" });
     }
 })
 
