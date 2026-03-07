@@ -13,6 +13,7 @@ app.use(express.json());
 app.use("/api/v1/safehouses", safehouseRoutes);
 
 app.get("/api/hello", (req, res) => {
+  console.log("GET /api/hello hit");
   res.json({ message: "Hello from us!" });
 });
 
