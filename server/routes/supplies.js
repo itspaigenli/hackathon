@@ -68,6 +68,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/supplies/{id}:
+ *   delete:
+ *      summary: Removes a specific supply by id
+ *      description: Remove a supply item using the id of the supply from the zombiesurvival database. 
+ *      responses:
+ *          200:
+ *              description: Remove a supply sucessfully.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: Message for successful supply removal
+ *                                  example: The supply "Hammer" was deleted!
+*/
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
