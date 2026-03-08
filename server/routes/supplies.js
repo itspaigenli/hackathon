@@ -69,6 +69,45 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    try {
+        const { name, category, quantity, safehouse_id } = req.body;
+
+        if (!name) {
+            return res.status(400).json({
+                error: 'Supply name is required!'
+            });
+        }
+
+        if (!category) {
+            return res.status(400).json({
+                error: 'Category name is required!'
+            });
+        }
+
+        if (quantity === undefined) {
+            return res.status(400).json({
+                error: 'Quantity is not a valid number!'
+            });
+        } else if (quantity < 0 || quantity > 100) {
+            return res.status(400).json({
+                error: 'Quantity should be greater than 0 or less than 100!'
+            })
+        }
+
+        const result = await pool.query(
+            `INSERT INTO events (name, category, quantity, safehouse_id) 
+             VALUES ($1, $2, $3, $4) 
+             RETURNING *`,
+            [name, category, quantity, safehouse_id]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Error! Could not add this supply!')
+        res.status(500).json({ error: 'Error! Could not add this supply!' });
+    }
+});
+
 /**
  * @swagger
  * /api/supplies/{id}:
