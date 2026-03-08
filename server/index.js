@@ -5,6 +5,8 @@ import pool from "./db.js";
 import safehouseRoutes from "./routes/safehouses.js";
 import survivorsRouter from "./routes/survivors.js";
 import suppliesRoutes from "./routes/supplies.js";
+import swaggerUi from 'swagger-ui-express'
+import swaggerSpecs from "./docs/swagger.js";
 
 dotenv.config();
 
@@ -12,6 +14,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.get("/api/hello", (req, res) => {
   console.log("GET /api/hello hit");
