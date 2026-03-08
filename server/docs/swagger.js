@@ -1,5 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 
+const PORT = process.env.PORT || 3000;
+
 const swaggerDefinition = {
     openapi: '3.2.0',
     info: {
@@ -8,7 +10,7 @@ const swaggerDefinition = {
         description: 'This API is for managing safehouses, servivors, and supplies'
     },
     servers: [{
-        url: 'http://localhost:3000',
+        url: `http://localhost:${PORT}`,
         description: 'Development server'
     }],
 };

@@ -3,6 +3,51 @@ import pool from '../db.js'
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /api/supplies:
+ *   get:
+ *      summary: Retrieve a list of supplies, including safehouse name and location 
+ *      description: Retrieve a list of supplies from zombiesurvival database. 
+ *       Users are able to get a list of supplies including name, category, quantity, safehouse_id, safehous_name, and location.
+ *      tags: [Supplies]
+ *      responses:
+ *          200:
+ *              description: A list of supplies.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                                  description: The supply id
+ *                                  example: 14
+ *                              name:
+ *                                  type: string
+ *                                  description: The supply name
+ *                                  example: Flashlight
+ *                              category:
+ *                                  type: string
+ *                                  description: The supply category
+ *                                  example: tools
+ *                              quantity:
+ *                                  type: integer
+ *                                  description: The supply quantity
+ *                                  example: 4
+ *                              safehouse_id:
+ *                                  type: integer
+ *                                  description: The safehouse id number
+ *                                  example: 1
+ *                              safehouse:
+ *                                  type: string
+ *                                  description: The safehouse name
+ *                                  example: Mall Fortress
+ *                              location:
+ *                                   type: string
+ *                                   description: The safehous location
+ *                                   example: Downtown Mall
+*/
 router.get('/', async (req, res) => {
     try {
         const result = await pool.query(`
@@ -24,6 +69,37 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/supplies/{id}:
+ *   delete:
+ *      summary: Removes a specific supply by id
+ *      description: Remove a supply item using the id of the supply from the zombiesurvival database. 
+ *      tags: [Supplies]
+ *      responses:
+ *          200:
+ *              description: Remove a supply sucessfully.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: Message for successful supply removal
+ *                                  example: The supply "Hammer" was deleted!
+ *          500:
+ *              description: Remove a supply unsuccessful.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: Message for unsuccessful supply removal
+ *                                  example: Error! Could not delete supply item!
+*/
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -38,7 +114,7 @@ router.delete('/:id', async (req, res) => {
         res.status(200).json({ message: `The supply "${result.rows[0].name}" was deleted!` })
     } catch (error) {
         console.error('Error with deleting supply: ', error);
-        res.status(500).json({ error: 'Error! Could not delete supply' });
+        res.status(500).json({ error: 'Error! Could not delete supply item!' });
     }
 });
 
