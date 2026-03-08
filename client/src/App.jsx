@@ -8,9 +8,12 @@ import {
   createSurvivor,
   deleteSurvivor,
   getSupplies,
+  createSupply,
+  useSupply,
   deleteSupply,
 } from "./api";
 import AddSurvivorForm from "./components/AddSurvivorForm";
+import AddSupplyForm from "./components/AddSupplyForm";
 import SafehousesList from "./components/SafehousesList";
 import SuppliesList from "./components/SuppliesList";
 import SurvivorFilters from "./components/SurvivorFilters";
@@ -73,6 +76,34 @@ function App() {
     }
   }
 
+  async function loadSupplies() {
+    try {
+      setError("");
+      const suppliesData = await getSupplies();
+      setSupplies(suppliesData);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function refreshSelectedSafehouseDetails(
+    safehouse = selectedSafehouse,
+  ) {
+    if (!safehouse) return;
+
+    try {
+      const [survivorsData, suppliesData] = await Promise.all([
+        getSafehouseSurvivors(safehouse.id),
+        getSafehouseSupplies(safehouse.id),
+      ]);
+
+      setSelectedSafehouseSurvivors(survivorsData.survivors);
+      setSelectedSafehouseSupplies(suppliesData);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   async function handleApplyFilters(newFilters) {
     setFilters(newFilters);
     await loadSurvivors(newFilters);
@@ -103,7 +134,7 @@ function App() {
         selectedSafehouse &&
         Number(selectedSafehouse.id) === Number(newSurvivor.safehouse_id)
       ) {
-        await handleSelectSafehouse(selectedSafehouse);
+        await refreshSelectedSafehouseDetails(selectedSafehouse);
       }
     } catch (err) {
       setError(err.message);
@@ -119,10 +150,31 @@ function App() {
       setAllSurvivors(refreshedSurvivors);
 
       await loadSurvivors(filters);
+      await refreshSelectedSafehouseDetails();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
-      if (selectedSafehouse) {
-        await handleSelectSafehouse(selectedSafehouse);
-      }
+  async function handleAddSupply(newSupply) {
+    try {
+      setError("");
+      await createSupply(newSupply);
+
+      await loadSupplies();
+      await refreshSelectedSafehouseDetails();
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleUseSupply(id) {
+    try {
+      setError("");
+      await useSupply(id);
+
+      await loadSupplies();
+      await refreshSelectedSafehouseDetails();
     } catch (err) {
       setError(err.message);
     }
@@ -133,12 +185,8 @@ function App() {
       setError("");
       await deleteSupply(id);
 
-      const updatedSupplies = await getSupplies();
-      setSupplies(updatedSupplies);
-
-      if (selectedSafehouse) {
-        await handleSelectSafehouse(selectedSafehouse);
-      }
+      await loadSupplies();
+      await refreshSelectedSafehouseDetails();
     } catch (err) {
       setError(err.message);
     }
@@ -254,8 +302,17 @@ function App() {
       </section>
 
       <section className="section-card">
+        <h2>Add Supply</h2>
+        <AddSupplyForm safehouses={safehouses} onAddSupply={handleAddSupply} />
+      </section>
+
+      <section className="section-card">
         <h2>Supplies</h2>
-        <SuppliesList supplies={supplies} onDelete={handleDeleteSupply} />
+        <SuppliesList
+          supplies={supplies}
+          onUseSupply={handleUseSupply}
+          onDelete={handleDeleteSupply}
+        />
       </section>
     </div>
   );

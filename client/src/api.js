@@ -127,6 +127,38 @@ export async function getSupplies() {
   return res.json();
 }
 
+export async function createSupply(newSupply) {
+  const res = await fetch(`${BASE_URL}/supplies`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newSupply),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Failed to create supply");
+  }
+
+  return data;
+}
+
+export async function useSupply(id) {
+  const res = await fetch(`${BASE_URL}/supplies/${id}/quantity`, {
+    method: "PATCH",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Failed to use supply");
+  }
+
+  return data;
+}
+
 export async function deleteSupply(id) {
   const res = await fetch(`${BASE_URL}/supplies/${id}`, {
     method: "DELETE",
