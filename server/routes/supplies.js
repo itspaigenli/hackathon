@@ -86,6 +86,17 @@ router.get('/', async (req, res) => {
  *                                  type: string
  *                                  description: Message for successful supply removal
  *                                  example: The supply "Hammer" was deleted!
+ *          500:
+ *              description: Remove a supply unsuccessful.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                                  description: Message for unsuccessful supply removal
+ *                                  example: Error! Could not delete supply item!
 */
 router.delete('/:id', async (req, res) => {
     try {
