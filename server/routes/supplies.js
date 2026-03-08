@@ -5,11 +5,22 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM supplies');
+        const result = await pool.query(`
+            SELECT 
+                supply.id, 
+                supply.name, 
+                supply.category, 
+                supply.quantity,
+                supply.safehouse_id,
+                safehouse.name as safehouse, 
+                safehouse.location
+            FROM supplies supply
+            JOIN safehouses safehouse ON supply.safehouse_id = safehouse.id
+        `);
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error('Error with getting supplies: ', error);
-        res.status(500).json({ error: 'Error! Could not get supplies!' });
+        console.error('Error with getting supplies, safehouse name, and location: ', error);
+        res.status(500).json({ error: 'Error! Could not get supplies, safehouse name, and location!' });
     }
 });
 
