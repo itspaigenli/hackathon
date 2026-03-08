@@ -7,6 +7,10 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: 'This API is for managing safehouses, servivors, and supplies'
     },
+    servers: [{
+        url: 'http://localhost:3000',
+        description: 'Development server'
+    }],
 };
 
 const options = {
