@@ -48,6 +48,10 @@ router.get('/', async (req, res) => {
         params
         );
 
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Survivor not found" });
+        }
+
         res.status(200).json(result.rows);
     } catch (error) {
         console.error("Error fetching survivors:", error);
