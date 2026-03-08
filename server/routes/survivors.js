@@ -4,18 +4,59 @@ import pool from "../db.js";
 const router = express.Router();
 
 // GET all survivors
-router.get("/", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT * FROM survivors");
-    res.status(200).json(result.rows);
-  } catch (error) {
-    console.error("Error fetching all survivors:", error);
-    res.status(500).json({ error: "Failed to fetch all survivors" });
-  }
-});
+// router.get('/', async (req, res) => {
+//   try {
+//     const result = await pool.query("SELECT * FROM survivors");
+//     res.status(200).json(result.rows);
+//   } catch (error) {
+//     console.error("Error fetching all survivors:", error);
+//     res.status(500).json({ error: "Failed to fetch all survivors" });
+//   }
+// });
+
+// Filtering by health/skill/safehouse_id
+router.get('/', async (req, res) => {
+    const { health_status, skill, safehouse_id } = req.query;
+
+    const params = [];
+    const where = [];
+
+    if (health_status) {
+        params.push(health_status);
+        where.push(`health_status = $${params.length}`);
+    }
+
+    if (skill) {
+        params.push(skill);
+        where.push(`skill = $${params.length}`);
+    }
+
+    if (safehouse_id) {
+        params.push(safehouse_id);
+        where.push(`safehouse_id = $${params.length}`);
+    }
+    console.log(req.query);
+    console.log("With Params:", params);
+
+    try{
+        const result = await pool.query(
+        `
+            SELECT * FROM survivors
+            ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
+            ORDER BY id ASC
+        `,
+        params
+        );
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error("Error fetching survivors:", error);
+        res.status(500).json({ error: "Failed to fetch survivors" });
+    }
+})
 
 // Get each survivor by id
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const result = await pool.query(
@@ -35,7 +76,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE a new survivor
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
     const {
         firstname,
         lastname,
