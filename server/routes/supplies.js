@@ -230,6 +230,31 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.patch('/:id/quantity', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const result = await pool.query(
+            `UPDATE supplies 
+            SET quantity - 1 
+            WHERE id=$1 AND quantity > 0
+            RETURNING *`,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ 
+                error: 'This supply does not exist or quantity is already 0!'
+            });
+        }
+
+        res.status(201).json(result.rows[0])
+    } catch (error) {
+        console.error('Error! Could not update quantity for this supply!', error);
+        res.status(500).json({ error: 'Supply quantity not updated!' });
+    }
+});
+
 /**
  * @swagger
  * /api/supplies/{id}:
