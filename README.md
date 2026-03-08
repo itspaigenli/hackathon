@@ -62,8 +62,20 @@ The API supports filtering survivors using query parameters.
 ***Examples***
 <img width="1189" height="480" alt="Screenshot 2026-03-08 at 4 09 26 PM" src="https://github.com/user-attachments/assets/c23520de-6b97-4b74-a748-f65d5b373f57" />
 
+### Rate Limiting
+To prevent API abuse and excessive requests, the server implements rate limiting using **express-rate-limit**.
+
+Current policy:
+- 100 requests per IP
+- per 15 minutes
+- applied to all `/api` routes
+<img width="500" height="68" alt="Screenshot 2026-03-08 at 5 12 16 PM" src="https://github.com/user-attachments/assets/973828a5-a867-4430-b36f-469510ed8779" />
+
+
 ### AI Tools Used
-- ChatGPT: To seed data
+- ChatGPT:
+  - To seed data
+  - To create Templete for frontend
 
 ### Team Member Contributions
 1. Paige – Safehouses API & Frontend Implementation
