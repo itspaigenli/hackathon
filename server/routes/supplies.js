@@ -133,7 +133,7 @@ router.get('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: Category name is required!
+ *                                  example: "Category name is required!"
  *          409:
  *              description: Conflict with request adding a duplicate supply.
  *              content:
@@ -143,7 +143,7 @@ router.get('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: "Flashlight" already exists in safehouse 1.
+ *                                  example: '"Flashlight" already exists in safehouse 1.'
  *          500:
  *              description: Server error with adding supply.
  *              content:
@@ -209,18 +209,18 @@ router.post('/', async (req, res) => {
 
 /**
  * @swagger
- * /api/supplies:
+ * /api/supplies/{id}/quantity:
  *   patch:
  *      summary: Reduce a supply quantity by 1 in inventory of supplies.
  *      description: Reduce a supply quantity by one from inventory of supplies from zombiesurvival database. 
  *       Users are able to "use" a supply which is then reduced by 1.
  *      tags: [Supplies]
- *      parametes:
+ *      parameters:
  *          - in: path
- *          name: id
- *          required: true
- *          description: The ID of the supply
- *          schema:
+ *            name: id
+ *            required: true
+ *            description: The ID of the supply
+ *            schema:
  *              type: integer
  *              example: 1
  *      responses:
@@ -231,8 +231,8 @@ router.post('/', async (req, res) => {
  *                      schema:
  *                          type: object
  *                          properties:
-  *                             id:
- *                                  type: string
+ *                              id:
+ *                                  type: integer
  *                                  description: The supply id
  *                                  example: 1
  *                              name:
@@ -260,7 +260,7 @@ router.post('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: This supply does not exist or quantity is already 0!
+ *                                  example: 'This supply does not exist or quantity is already 0!'
  *          500:
  *              description: Error with updating supply.
  *              content:
@@ -270,7 +270,7 @@ router.post('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: Error! Could not update quantity for this supply!
+ *                                  example: 'Error! Could not update quantity for this supply!'
 */
 router.patch('/:id/quantity', async (req, res) => {
     try {
