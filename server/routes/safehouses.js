@@ -3,7 +3,53 @@ import pool from "../db.js";
 
 const router = express.Router();
 
-// GET all safehouses
+/**
+ * @swagger
+ * /api/safehouses/:
+ *    get:
+ *      summary: Get all safehouse.
+ *      description: Returns all safehouses.
+ *      tags:
+ *          - Safehouses
+ *      responses:
+ *          200:
+ *              description: Survivors successfully retrieved
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  name:
+ *                                      type: text
+ *                                      example: "Mall Fortress"
+ *                                  location:
+ *                                      type: text
+ *                                      example: "Downtown Mall"
+ *                                  defense_level:
+ *                                      type: integer
+ *                                      example: 8
+ *
+ *
+ *          500:
+ *              description: Server error when fetching safehouses
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 500
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch safehouses
+ * */
+
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM safehouses ORDER BY id");
@@ -13,7 +59,70 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET one safehouse by id
+/**
+ * @swagger
+ * /api/safehouses/{id}:
+ *    get:
+ *      summary: Get one safehouse by ID.
+ *      description: Returns one safehouses by ID.
+ *      tags:
+ *          - Safehouses
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The ID of the safehouse.
+ *      responses:
+ *          200:
+ *              description: Survivors successfully retrieved
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              id:
+ *                                  type: integer
+ *                                  example: 1
+ *                              name:
+ *                                  type: text
+ *                                  example: "Mall Fortress"
+ *                              location:
+ *                                  type: text
+ *                                  example: "Downtown Mall"
+ *                              defense_level:
+ *                                  type: integer
+ *                                  example: 8
+ *
+ *          404:
+ *              description: No safehouse found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: "Safehouse not found"
+ *          500:
+ *              description: Server error when fetching safehouses
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 500
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch safehouse
+ * */
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -32,13 +141,13 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/** 
- * @swagger 
+/**
+ * @swagger
  * /api/safehouses/{id}/survivors:
  *    get:
  *      summary: Get survivors in a safehouse.
  *      description: Returns all survivors assigned to a specific safehouse, along with the total count.
- *      tags: 
+ *      tags:
  *          - Safehouses
  *      parameters:
  *       - in: path
@@ -112,7 +221,7 @@ router.get("/:id", async (req, res) => {
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505 
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch survivors
@@ -145,13 +254,13 @@ router.get("/:id/survivors", async (req, res) => {
   }
 });
 
-/** 
- * @swagger 
+/**
+ * @swagger
  * /api/safehouses/{id}/supplies:
  *    get:
  *      summary: Get supplies in a safehouse.
  *      description: Returns all supplies stored in a specific safehouse.
- *      tags: 
+ *      tags:
  *          - Safehouses
  *      parameters:
  *       - in: path
@@ -208,7 +317,7 @@ router.get("/:id/survivors", async (req, res) => {
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505 
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch supplies
