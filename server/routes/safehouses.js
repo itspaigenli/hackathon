@@ -43,12 +43,17 @@ router.get('/:id/survivors', async (req, res) => {
              ORDER BY id ASC`,
              [id]
         )
-        
+
         if (result.rows.length === 0) {
             return res.status(404).json({ error: "Survivor not found" });
         }
 
-        res.status(200).json(result.rows);
+        res.status(200).json({
+            safehouse_id: id,
+            count: result.rows.length,
+            survivors: result.rows
+        });
+        
     } catch (error) {
         console.error("Error fetching survivors for safehouse:", error);
         res.status(500).json({ error: "Failed to fetch survivors" });
