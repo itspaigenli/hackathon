@@ -95,6 +95,19 @@ router.post('/', async (req, res) => {
             })
         }
 
+        const is_duplicateSupply = await pool.query(
+            `SELECT * 
+             FROM supplies 
+             WHERE name = $1 AND safehouse_id = $2`,
+            [name, safehouse_id]
+        );
+
+        if (is_duplicateSupply.rows.length > 0) {
+            return res.status(409).json({
+                error: `"${name}" already exists in safehouse ${safehouse_id}.`
+            });
+        }
+
         const result = await pool.query(
             `INSERT INTO events (name, category, quantity, safehouse_id) 
              VALUES ($1, $2, $3, $4) 
