@@ -11,7 +11,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/v1/safehouses", safehouseRoutes);
 
 app.get("/api/hello", (req, res) => {
   console.log("GET /api/hello hit");
@@ -31,6 +30,7 @@ app.get("/api/db-test", async (req, res) => {
 });
 
 app.use("/api/survivors", survivorsRouter);
+app.use("/api/v1/safehouses", safehouseRoutes);
 
 const PORT = process.env.PORT || 3000;
 
