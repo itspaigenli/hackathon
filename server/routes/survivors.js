@@ -319,7 +319,7 @@ router.get("/:id", async (req, res) => {
  *                          properties:
  *                              code:
  *                                  type: integer
- *                                  example: 404
+ *                                  example: 400
  *                              error:
  *                                  type: string
  *                                  example: firstname and lastname are required!
