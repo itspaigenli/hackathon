@@ -380,36 +380,54 @@ router.post('/', async (req, res) => {
 
 /** 
  * @swagger 
- * /api/survivors:
- *    get:
- *      summary: Get all survivors.
- *      description: Returns all survivors, with optional filtering by health status, skill, and safehouse ID.
+ * /api/survivors/{id}:
+ *    put:
+ *      summary: Update a survivor.
+ *      description: Updates an existing survivor by ID.
  *      tags: 
  *          - Survivors
  *      parameters:
- *       - in: query
- *         name: health_status
- *         required: false
- *         schema:
- *           type: string
- *           enum: [healthy, injured, infected]
- *         description: Filter survivors by health status
- *       - in: query
- *         name: skill
- *         required: false
- *         schema:
- *           type: string
- *         description: Filter survivors by skill
- *       - in: query
- *         name: safehouse_id
- *         required: false
+ *       - in: path
+ *         name: id
+ *         required: true
  *         schema:
  *           type: integer
- *           enum: [1,2,3,4,5,6]
- *         description: Filter survivors by safehouse ID
+ *           example: 1
+ *         description: The ID of the survivor to update
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      required:
+ *                          - firstname
+ *                          - lastname
+ *                          - age
+ *                      properties:
+ *                          firstname:
+ *                              type: string
+ *                              example: Alice
+ *                          lastname:
+ *                              type: string
+ *                              example: Walker
+ *                          age:
+ *                              type: integer
+ *                              example: 29
+ *                          skill:
+ *                              type: string
+ *                              enum: [medic, scout, engineer, fighter, hunter]
+ *                              example: medic
+ *                          health_status:
+ *                              type: string
+ *                              enum: [healthy, injured, infected]
+ *                              example: healthy
+ *                          safehouse_id:
+ *                              type: integer
+ *                              example: 2
  *      responses:
  *          200:
- *              description: A list of survivors
+ *              description: Survivor successfully updated
  *              content:
  *                  application/json:
  *                      schema:
@@ -437,9 +455,9 @@ router.post('/', async (req, res) => {
  *                                      example: healthy
  *                                  safehouse_id:
  *                                      type: integer
- *                                      example: 2
- *          404:
- *              description: No survivors found
+ *                                      example: 3
+ *          400:
+ *              description: Invalid request data
  *              content:
  *                  application/json:
  *                      schema:
@@ -450,7 +468,7 @@ router.post('/', async (req, res) => {
  *                                  example: 404
  *                              error:
  *                                  type: string
- *                                  example: Survivor not found
+ *                                  example: firstname and lastname are required!
  *          500:
  *              description: Failed to fetch survivors
  *              content:
