@@ -75,7 +75,7 @@ router.get('/', async (req, res) => {
  *   post:
  *      summary: Add a supply to inventory of supplies.
  *      description: Add a newly created supply to the current inventory of supplies from zombiesurvival database. 
- *       Users are able to get a add a new supply including name, category, quantity, and safehous using safehouse_id.
+ *       Users are able to add a add a new supply including name, category, quantity, and safehouse using safehouse_id.
  *      tags: [Supplies]
  *      requestBody:
  *          required: true
@@ -101,29 +101,6 @@ router.get('/', async (req, res) => {
  *                              type: integer
  *                              example: 1
  *      responses:
- *          200:
- *              description: Add a supply.
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              name:
- *                                  type: string
- *                                  description: The supply name
- *                                  example: Flashlight
- *                              category:
- *                                  type: string
- *                                  description: The supply category
- *                                  example: tools
- *                              quantity:
- *                                  type: integer
- *                                  description: The supply quantity
- *                                  example: 4
- *                              safehouse_id:
- *                                  type: integer
- *                                  description: The safehouse id number
- *                                  example: 1
  *          201:
  *              description: Add a supply successful.
  *              content:
@@ -156,7 +133,7 @@ router.get('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: Error! Could not add this supply!
+ *                                  example: Category name is required!
  *          409:
  *              description: Conflict with request adding a duplicate supply.
  *              content:
@@ -168,7 +145,7 @@ router.get('/', async (req, res) => {
  *                                  type: string
  *                                  example: "Flashlight" already exists in safehouse 1.
  *          500:
- *              description: Error with adding supply.
+ *              description: Server error with adding supply.
  *              content:
  *                  application/json:
  *                      schema:
@@ -176,7 +153,7 @@ router.get('/', async (req, res) => {
  *                          properties:
  *                              error:
  *                                  type: string
- *                                  example: Category name is required!
+ *                                  example: Error! Could not add this supply!
 */
 router.post('/', async (req, res) => {
     try {
@@ -230,6 +207,71 @@ router.post('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/supplies:
+ *   patch:
+ *      summary: Reduce a supply quantity by 1 in inventory of supplies.
+ *      description: Reduce a supply quantity by one from inventory of supplies from zombiesurvival database. 
+ *       Users are able to "use" a supply which is then reduced by 1.
+ *      tags: [Supplies]
+ *      parametes:
+ *          - in: path
+ *          name: id
+ *          required: true
+ *          description: The ID of the supply
+ *          schema:
+ *              type: integer
+ *              example: 1
+ *      responses:
+ *          200:
+ *              description: Supply quantity sucessfully reduced.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+  *                             id:
+ *                                  type: string
+ *                                  description: The supply id
+ *                                  example: 1
+ *                              name:
+ *                                  type: string
+ *                                  description: The supply name
+ *                                  example: Flashlight
+ *                              category:
+ *                                  type: string
+ *                                  description: The supply category
+ *                                  example: tools
+ *                              quantity:
+ *                                  type: integer
+ *                                  description: The supply quantity
+ *                                  example: 3
+ *                              safehouse_id:
+ *                                  type: integer
+ *                                  description: The safehouse id number
+ *                                  example: 1
+ *          404:
+ *              description: Error with request for reducing a supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: This supply does not exist or quantity is already 0!
+ *          500:
+ *              description: Error with updating supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: Error! Could not update quantity for this supply!
+*/
 router.patch('/:id/quantity', async (req, res) => {
     try {
         const { id } = req.params;
