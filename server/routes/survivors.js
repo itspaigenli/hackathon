@@ -14,6 +14,93 @@ const router = express.Router();
 //   }
 // });
 
+/** 
+ * @swagger 
+ * /api/survivors:
+ *    get:
+ *      summary: Get all survivors.
+ *      description: Returns all survivors, with optional filtering by health status, skill, and safehouse ID.
+ *      tags: 
+ *          - Survivors
+ *      parameters:
+ *       - in: query
+ *         name: health_status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [healthy, injured, infected]
+ *         description: Filter survivors by health status
+ *       - in: query
+ *         name: skill
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [medic, scout, engineer, fighter, hunter]
+ *         description: Filter survivors by skill
+ *       - in: query
+ *         name: safehouse_id
+ *         required: false
+ *         schema:
+ *           type: integer
+ *         description: Filter survivors by safehouse ID
+ *      responses:
+ *          200:
+ *              description: A list of survivors
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  firstname:
+ *                                      type: string
+ *                                      example: Alice
+ *                                  lastname:
+ *                                      type: string
+ *                                      example: Walker
+ *                                  age:
+ *                                      type: integer
+ *                                      example: 29
+ *                                  skill:
+ *                                      type: string
+ *                                      example: medic
+ *                                  health_status:
+ *                                      type: string
+ *                                      example: healthy
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 2
+ *          404:
+ *              description: No survivors found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: Survivor not found
+ *          500:
+ *              description: Failed to fetch survivors
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch survivors 
+ * */
 // Filtering by health/skill/safehouse_id
 router.get('/', async (req, res) => {
     const { health_status, skill, safehouse_id } = req.query;
@@ -59,6 +146,81 @@ router.get('/', async (req, res) => {
     }
 })
 
+/** 
+ * @swagger 
+ * /api/survivors/{id}:
+ *    get:
+ *      summary: Get a survivor by ID.
+ *      description: Returns the details of a specific survivor based on their ID.
+ *      tags: 
+ *          - Survivors
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The ID of the survivor.
+ *      responses:
+ *          200:
+ *              description: Survivor found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  firstname:
+ *                                      type: string
+ *                                      example: Alice
+ *                                  lastname:
+ *                                      type: string
+ *                                      example: Walker
+ *                                  age:
+ *                                      type: integer
+ *                                      example: 29
+ *                                  skill:
+ *                                      type: string
+ *                                      example: medic
+ *                                  health_status:
+ *                                      type: string
+ *                                      example: healthy
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 2
+ *          404:
+ *              description: Survivor not found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: Survivor not found
+ *          500:
+ *              description: Server error when retrieving survivor
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch this survivor
+ * */
+
 // Get each survivor by id
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
@@ -78,6 +240,8 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: "Failed to fetch this survivor" });
     }
 });
+
+
 
 // CREATE a new survivor
 router.post('/', async (req, res) => {
@@ -117,6 +281,94 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: "Failed to create survivor" });
     }
 })
+
+/** 
+ * @swagger 
+ * /api/survivors:
+ *    get:
+ *      summary: Get all survivors.
+ *      description: Returns all survivors, with optional filtering by health status, skill, and safehouse ID.
+ *      tags: 
+ *          - Survivors
+ *      parameters:
+ *       - in: query
+ *         name: health_status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [healthy, injured, infected]
+ *         description: Filter survivors by health status
+ *       - in: query
+ *         name: skill
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filter survivors by skill
+ *       - in: query
+ *         name: safehouse_id
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           enum: [1,2,3,4,5,6]
+ *         description: Filter survivors by safehouse ID
+ *      responses:
+ *          200:
+ *              description: A list of survivors
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  firstname:
+ *                                      type: string
+ *                                      example: Alice
+ *                                  lastname:
+ *                                      type: string
+ *                                      example: Walker
+ *                                  age:
+ *                                      type: integer
+ *                                      example: 29
+ *                                  skill:
+ *                                      type: string
+ *                                      example: medic
+ *                                  health_status:
+ *                                      type: string
+ *                                      example: healthy
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 2
+ *          404:
+ *              description: No survivors found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: Survivor not found
+ *          500:
+ *              description: Failed to fetch survivors
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch survivors 
+ * */
 
 // UPDATE a survivor
 router.put('/:id', async (req, res) => {
@@ -167,6 +419,94 @@ router.put('/:id', async (req, res) => {
         res.status(500).json({ error: "Failed to update survivor" });
     }
 })
+
+/** 
+ * @swagger 
+ * /api/survivors:
+ *    get:
+ *      summary: Get all survivors.
+ *      description: Returns all survivors, with optional filtering by health status, skill, and safehouse ID.
+ *      tags: 
+ *          - Survivors
+ *      parameters:
+ *       - in: query
+ *         name: health_status
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum: [healthy, injured, infected]
+ *         description: Filter survivors by health status
+ *       - in: query
+ *         name: skill
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filter survivors by skill
+ *       - in: query
+ *         name: safehouse_id
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           enum: [1,2,3,4,5,6]
+ *         description: Filter survivors by safehouse ID
+ *      responses:
+ *          200:
+ *              description: A list of survivors
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  firstname:
+ *                                      type: string
+ *                                      example: Alice
+ *                                  lastname:
+ *                                      type: string
+ *                                      example: Walker
+ *                                  age:
+ *                                      type: integer
+ *                                      example: 29
+ *                                  skill:
+ *                                      type: string
+ *                                      example: medic
+ *                                  health_status:
+ *                                      type: string
+ *                                      example: healthy
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 2
+ *          404:
+ *              description: No survivors found
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: Survivor not found
+ *          500:
+ *              description: Failed to fetch survivors
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch survivors 
+ * */
 
 // DELETE a survivor
 router.delete('/:id', async (req, res) => {
