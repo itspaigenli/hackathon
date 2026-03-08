@@ -536,36 +536,23 @@ router.put('/:id', async (req, res) => {
 
 /** 
  * @swagger 
- * /api/survivors:
- *    get:
- *      summary: Get all survivors.
- *      description: Returns all survivors, with optional filtering by health status, skill, and safehouse ID.
+ * /api/survivors/{id}:
+ *    delete:
+ *      summary: Delete a survivor.
+ *      description: Deletes a survivor from the database by ID.
  *      tags: 
  *          - Survivors
  *      parameters:
- *       - in: query
- *         name: health_status
- *         required: false
- *         schema:
- *           type: string
- *           enum: [healthy, injured, infected]
- *         description: Filter survivors by health status
- *       - in: query
- *         name: skill
- *         required: false
- *         schema:
- *           type: string
- *         description: Filter survivors by skill
- *       - in: query
- *         name: safehouse_id
- *         required: false
+ *       - in: path
+ *         name: id
+ *         required: true
  *         schema:
  *           type: integer
- *           enum: [1,2,3,4,5,6]
- *         description: Filter survivors by safehouse ID
+ *           example: 1
+ *         description: The ID of the survivor to delete
  *      responses:
  *          200:
- *              description: A list of survivors
+ *              description: Survivor successfully deleted
  *              content:
  *                  application/json:
  *                      schema:
@@ -595,7 +582,7 @@ router.put('/:id', async (req, res) => {
  *                                      type: integer
  *                                      example: 2
  *          404:
- *              description: No survivors found
+ *              description: Survivor not found
  *              content:
  *                  application/json:
  *                      schema:
@@ -608,7 +595,7 @@ router.put('/:id', async (req, res) => {
  *                                  type: string
  *                                  example: Survivor not found
  *          500:
- *              description: Failed to fetch survivors
+ *              description: Server error when deleting survivor
  *              content:
  *                      application/json:
  *                          schema:
@@ -619,7 +606,7 @@ router.put('/:id', async (req, res) => {
  *                                      example: 505 
  *                                  error:
  *                                      type: string
- *                                      example: Failed to fetch survivors 
+ *                                      example: Failed to delete survivor
  * */
 
 // DELETE a survivor
