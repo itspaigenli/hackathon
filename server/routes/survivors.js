@@ -241,7 +241,103 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
+/** 
+ * @swagger 
+ * /api/survivors:
+ *    post:
+ *      summary: Create a new survivor.
+ *      description: Creates a new survivor record in the database.
+ *      tags: 
+ *          - Survivors
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      required:
+ *                          - firstname
+ *                          - lastname
+ *                          - age
+ *                      properties:
+ *                          firstname:
+ *                              type: string
+ *                              example: Alice
+ *                          lastname:
+ *                              type: string
+ *                              example: Walker
+ *                          age:
+ *                              type: integer
+ *                              example: 29
+ *                          skill:
+ *                              type: string
+ *                              enum: [medic, scout, engineer, fighter, hunter]
+ *                              example: medic
+ *                          health_status:
+ *                              type: string
+ *                              enum: [healthy, injured, infected]
+ *                              example: healthy
+ *                          safehouse_id:
+ *                              type: integer
+ *                              example: 2
+ *      responses:
+ *          201:
+ *              description: Survivor successfully created
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  id:
+ *                                      type: integer
+ *                                      example: 10
+ *                                  firstname:
+ *                                      type: string
+ *                                      example: Alice
+ *                                  lastname:
+ *                                      type: string
+ *                                      example: Walker
+ *                                  age:
+ *                                      type: integer
+ *                                      example: 29
+ *                                  skill:
+ *                                      type: string
+ *                                      example: medic
+ *                                  health_status:
+ *                                      type: string
+ *                                      example: healthy
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 2
+ *          400:
+ *              description: Invalid request data
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: firstname and lastname are required!
+ *          500:
+ *              description: Server error when creating survivor
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to create survivor
+ * */
 
 // CREATE a new survivor
 router.post('/', async (req, res) => {
