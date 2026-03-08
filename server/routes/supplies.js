@@ -225,7 +225,7 @@ router.post('/', async (req, res) => {
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error('Error! Could not add this supply!')
+        console.error('Error! Could not add this supply!', error);
         res.status(500).json({ error: 'Error! Could not add this supply!' });
     }
 });
