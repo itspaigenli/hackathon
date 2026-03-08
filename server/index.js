@@ -5,7 +5,6 @@ import pool from "./db.js";
 import safehouseRoutes from "./routes/safehouses.js";
 import survivorsRouter from "./routes/survivors.js";
 import suppliesRoutes from "./routes/supplies.js";
-import safehousesRouter from "./routes/safehouses.js"
 
 dotenv.config();
 
@@ -31,10 +30,9 @@ app.get("/api/db-test", async (req, res) => {
   }
 });
 
-app.use("/api/safehouses", safehousesRouter);
 app.use("/api/survivors", survivorsRouter);
 app.use("/api/safehouses", safehouseRoutes);
-app.use('/api/supplies', suppliesRoutes);
+app.use("/api/supplies", suppliesRoutes);
 
 const PORT = process.env.PORT || 3000;
 
