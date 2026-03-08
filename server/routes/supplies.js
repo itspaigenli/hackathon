@@ -10,6 +10,7 @@ const router = express.Router();
  *      summary: Retrieve a list of supplies, including safehouse name and location 
  *      description: Retrieve a list of supplies from zombiesurvival database. 
  *       Users are able to get a list of supplies including name, category, quantity, safehouse_id, safehous_name, and location.
+ *      tags: [Supplies]
  *      responses:
  *          200:
  *              description: A list of supplies.
@@ -74,6 +75,7 @@ router.get('/', async (req, res) => {
  *   delete:
  *      summary: Removes a specific supply by id
  *      description: Remove a supply item using the id of the supply from the zombiesurvival database. 
+ *      tags: [Supplies]
  *      responses:
  *          200:
  *              description: Remove a supply sucessfully.
