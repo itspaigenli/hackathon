@@ -1,7 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 
 const swaggerDefinition = {
-    openapi: '3.0.0',
+    openapi: '3.2.0',
     info: {
         title:  'Zombie Survival API',
         version: '1.0.0',
