@@ -1,42 +1,80 @@
-function SurvivorFilters({ filters, setFilters, safehouses }) {
+import { useMemo, useState } from "react";
+
+function SurvivorFilters({
+  filters,
+  onApplyFilters,
+  onClearFilters,
+  safehouses,
+  survivors,
+}) {
+  const [localFilters, setLocalFilters] = useState(filters);
+
+  const healthOptions = useMemo(() => {
+    const values = survivors
+      .map((survivor) => survivor.health_status)
+      .filter(Boolean);
+
+    return [...new Set(values)].sort();
+  }, [survivors]);
+
+  const skillOptions = useMemo(() => {
+    const values = survivors.map((survivor) => survivor.skill).filter(Boolean);
+
+    return [...new Set(values)].sort();
+  }, [survivors]);
+
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setFilters((prev) => ({
+    setLocalFilters((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    onApplyFilters(localFilters);
+  }
+
   function handleClear() {
-    setFilters({
+    const cleared = {
       health_status: "",
       skill: "",
       safehouse_id: "",
-    });
+    };
+
+    setLocalFilters(cleared);
+    onClearFilters();
   }
 
   return (
-    <div className="filter-row">
-      <input
-        type="text"
+    <form className="filter-row" onSubmit={handleSubmit}>
+      <select
         name="health_status"
-        placeholder="Filter by health status"
-        value={filters.health_status}
+        value={localFilters.health_status}
         onChange={handleChange}
-      />
+      >
+        <option value="">All health statuses</option>
+        {healthOptions.map((status) => (
+          <option key={status} value={status}>
+            {status}
+          </option>
+        ))}
+      </select>
 
-      <input
-        type="text"
-        name="skill"
-        placeholder="Filter by skill"
-        value={filters.skill}
-        onChange={handleChange}
-      />
+      <select name="skill" value={localFilters.skill} onChange={handleChange}>
+        <option value="">All skills</option>
+        {skillOptions.map((skill) => (
+          <option key={skill} value={skill}>
+            {skill}
+          </option>
+        ))}
+      </select>
 
       <select
         name="safehouse_id"
-        value={filters.safehouse_id}
+        value={localFilters.safehouse_id}
         onChange={handleChange}
       >
         <option value="">All safehouses</option>
@@ -47,10 +85,14 @@ function SurvivorFilters({ filters, setFilters, safehouses }) {
         ))}
       </select>
 
+      <button className="action-button" type="submit">
+        Apply Filters
+      </button>
+
       <button className="clear-button" type="button" onClick={handleClear}>
         Clear Filters
       </button>
-    </div>
+    </form>
   );
 }
 

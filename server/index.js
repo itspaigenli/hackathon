@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.get("/api/hello", (req, res) => {
   console.log("GET /api/hello hit");
-  res.json({ message: "Hello from us!" });
+  res.json({ message: "Use Your Head: Cut Off Theirs." });
 });
 
 app.get("/api/db-test", async (req, res) => {

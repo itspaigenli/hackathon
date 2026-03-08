@@ -26,8 +26,8 @@ function AddSurvivorForm({ safehouses, onAdd }) {
       firstname: formData.firstname.trim(),
       lastname: formData.lastname.trim(),
       age: Number(formData.age),
-      skill: formData.skill.trim(),
-      health_status: formData.health_status.trim(),
+      skill: formData.skill,
+      health_status: formData.health_status,
       safehouse_id: Number(formData.safehouse_id),
     });
 
@@ -71,21 +71,31 @@ function AddSurvivorForm({ safehouses, onAdd }) {
         required
       />
 
-      <input
-        type="text"
+      <select
         name="skill"
-        placeholder="Skill"
         value={formData.skill}
         onChange={handleChange}
-      />
+        required
+      >
+        <option value="">Select skill</option>
+        <option value="medic">medic</option>
+        <option value="scout">scout</option>
+        <option value="engineer">engineer</option>
+        <option value="fighter">fighter</option>
+        <option value="hunter">hunter</option>
+      </select>
 
-      <input
-        type="text"
+      <select
         name="health_status"
-        placeholder="Health status"
         value={formData.health_status}
         onChange={handleChange}
-      />
+        required
+      >
+        <option value="">Select health status</option>
+        <option value="healthy">healthy</option>
+        <option value="injured">injured</option>
+        <option value="infected">infected</option>
+      </select>
 
       <select
         name="safehouse_id"
@@ -93,7 +103,7 @@ function AddSurvivorForm({ safehouses, onAdd }) {
         onChange={handleChange}
         required
       >
-        <option value="">Select a safehouse</option>
+        <option value="">Select safehouse</option>
         {safehouses.map((safehouse) => (
           <option key={safehouse.id} value={safehouse.id}>
             {safehouse.name}

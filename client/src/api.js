@@ -20,6 +20,38 @@ export async function getSafehouses() {
   return res.json();
 }
 
+export async function getSafehouseSurvivors(id) {
+  const res = await fetch(`${BASE_URL}/safehouses/${id}/survivors`);
+
+  if (res.status === 404) {
+    return {
+      safehouse_id: id,
+      count: 0,
+      survivors: [],
+    };
+  }
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch safehouse survivors");
+  }
+
+  return res.json();
+}
+
+export async function getSafehouseSupplies(id) {
+  const res = await fetch(`${BASE_URL}/safehouses/${id}/supplies`);
+
+  if (res.status === 404) {
+    return [];
+  }
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch safehouse supplies");
+  }
+
+  return res.json();
+}
+
 export async function getSurvivors(filters = {}) {
   const params = new URLSearchParams();
 
