@@ -69,6 +69,115 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/supplies:
+ *   post:
+ *      summary: Add a supply to inventory of supplies.
+ *      description: Add a newly created supply to the current inventory of supplies from zombiesurvival database. 
+ *       Users are able to get a add a new supply including name, category, quantity, and safehous using safehouse_id.
+ *      tags: [Supplies]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      required:
+ *                          - name
+ *                          - category
+ *                          - quantity
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                              example: Flashlight
+ *                          category:
+ *                              type: string
+ *                              example: tools
+ *                          quantity:
+ *                              type: integer
+ *                              example: 4
+ *                          safehouse_id:
+ *                              type: integer
+ *                              example: 1
+ *      responses:
+ *          200:
+ *              description: Add a supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              name:
+ *                                  type: string
+ *                                  description: The supply name
+ *                                  example: Flashlight
+ *                              category:
+ *                                  type: string
+ *                                  description: The supply category
+ *                                  example: tools
+ *                              quantity:
+ *                                  type: integer
+ *                                  description: The supply quantity
+ *                                  example: 4
+ *                              safehouse_id:
+ *                                  type: integer
+ *                                  description: The safehouse id number
+ *                                  example: 1
+ *          201:
+ *              description: Add a supply successful.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              name:
+ *                                  type: string
+ *                                  description: The supply name
+ *                                  example: Flashlight
+ *                              category:
+ *                                  type: string
+ *                                  description: The supply category
+ *                                  example: tools
+ *                              quantity:
+ *                                  type: integer
+ *                                  description: The supply quantity
+ *                                  example: 4
+ *                              safehouse_id:
+ *                                  type: integer
+ *                                  description: The safehouse id number
+ *                                  example: 1
+ *          400:
+ *              description: Error with request for adding a supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: Error! Could not add this supply!
+ *          409:
+ *              description: Conflict with request adding a duplicate supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: "Flashlight" already exists in safehouse 1.
+ *          500:
+ *              description: Error with adding supply.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              error:
+ *                                  type: string
+ *                                  example: Category name is required!
+*/
 router.post('/', async (req, res) => {
     try {
         const { name, category, quantity, safehouse_id } = req.body;
