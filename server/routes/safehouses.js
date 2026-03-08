@@ -32,6 +32,92 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/** 
+ * @swagger 
+ * /api/safehouses/{id}/survivors:
+ *    get:
+ *      summary: Get survivors in a safehouse.
+ *      description: Returns all survivors assigned to a specific safehouse, along with the total count.
+ *      tags: 
+ *          - Safehouses
+ *      parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The ID of the safehouse.
+ *      responses:
+ *          200:
+ *              description: Survivors successfully retrieved
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  safehouse_id:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  count:
+ *                                      type: integer
+ *                                      example: 1
+ *                                  survivors:
+ *                                      type: array
+ *                                      items:
+ *                                          type: object
+ *                                          properties:
+ *                                              id:
+ *                                                  type: integer
+ *                                                  example: 1
+ *                                              firstname:
+ *                                                  type: string
+ *                                                  example: Alice
+ *                                              lastname:
+ *                                                  type: string
+ *                                                  xample: Walker
+ *                                              age:
+ *                                                  type: integer
+ *                                                  example: 29
+ *                                              skill:
+ *                                                  type: string
+ *                                                  example: medic
+ *                                              health_status:
+ *                                                  type: string
+ *                                                  example: healthy
+ *                                              safehouse_id:
+ *                                                  type: integer
+ *                                                  example: 2
+ *          404:
+ *              description: No survivors found for this safehouse
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              code:
+ *                                  type: integer
+ *                                  example: 404
+ *                              error:
+ *                                  type: string
+ *                                  example: Survivor not found
+ *          500:
+ *              description: Server error when fetching survivors
+ *              content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  code:
+ *                                      type: integer
+ *                                      example: 505 
+ *                                  error:
+ *                                      type: string
+ *                                      example: Failed to fetch survivors
+ * */
+
 // GET survivor in a safe house
 router.get("/:id/survivors", async (req, res) => {
   const { id } = req.params;
