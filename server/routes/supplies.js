@@ -195,7 +195,7 @@ router.post('/', async (req, res) => {
         }
 
         const result = await pool.query(
-            `INSERT INTO events (name, category, quantity, safehouse_id) 
+            `INSERT INTO supplies (name, category, quantity, safehouse_id) 
              VALUES ($1, $2, $3, $4) 
              RETURNING *`,
             [name, category, quantity, safehouse_id]
@@ -278,7 +278,7 @@ router.patch('/:id/quantity', async (req, res) => {
         
         const result = await pool.query(
             `UPDATE supplies 
-            SET quantity - 1 
+            SET quantity = quantity - 1 
             WHERE id=$1 AND quantity > 0
             RETURNING *`,
             [id]
@@ -290,7 +290,7 @@ router.patch('/:id/quantity', async (req, res) => {
             });
         }
 
-        res.status(201).json(result.rows[0])
+        res.status(200).json(result.rows[0])
     } catch (error) {
         console.error('Error! Could not update quantity for this supply!', error);
         res.status(500).json({ error: 'Supply quantity not updated!' });
