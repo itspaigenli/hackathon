@@ -30,7 +30,7 @@ app.get("/api/db-test", async (req, res) => {
 });
 
 app.use("/api/survivors", survivorsRouter);
-app.use("/api/v1/safehouses", safehouseRoutes);
+app.use("/api/safehouses", safehouseRoutes);
 
 const PORT = process.env.PORT || 3000;
 
