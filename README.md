@@ -65,6 +65,30 @@ The API supports filtering survivors using query parameters.
 ### AI Tools Used
 - ChatGPT: To seed data
 
+### Team Member Contributions
+1. Paige – Safehouses API & Frontend Implementation
+   - Designed and implemented the `safehouses` table
+   - Built CRUD operations for safehouses
+   - Added Swagger/OpenAPI documentation for `safehouses`
+   - Developed the frontend dashboard using React and Vite
+   - Integrated frontend components with backend API endpoints
+   - Implemented data fetching and UI display for safehouses, survivors, and supplies
+2. Dari – Supplies API
+  - Designed and implemented the `supplies` table
+  - Built CRUD operations for supplies
+  - Added Swagger/OpenAPI documentation for `supplies`
+  - Implemented Swagger/OpenAPI documentation setups
+3. Siyi – Survivors API
+   - Designed and implemented the `survivors` table
+   - Built CRUD operations for survivors
+   - Added filtering support by `health_status`, `skill`, and `safehouse_id`
+   - Added request validation and error handling for survivor-related endpoints
+   - Built nested endpoints for retrieving survivors and supplies within `safehouse` table
+   - Added Swagger/OpenAPI documentation for `survivors` and documentation for nested endpoints part in `safehouse`
+   - Contributed to README writing
+
+All team members collaborated on API design decisions, database integration, endpoint testing, and overall project refinement.
+
 ### How to test
 1. Clone [hackathon repo](https://github.com/itspaigenli/hackathon.git)
 2. Run `cd server` command to change to server directory
