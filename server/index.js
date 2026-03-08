@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import safehouseRoutes from "./routes/safehouses.js";
 import survivorsRouter from "./routes/survivors.js";
 import suppliesRoutes from "./routes/supplies.js";
 import safehousesRouter from "./routes/safehouses.js"
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api/hello", (req, res) => {
+  console.log("GET /api/hello hit");
   res.json({ message: "Hello from us!" });
 });
 
@@ -31,6 +33,7 @@ app.get("/api/db-test", async (req, res) => {
 
 app.use("/api/safehouses", safehousesRouter);
 app.use("/api/survivors", survivorsRouter);
+app.use("/api/safehouses", safehouseRoutes);
 app.use('/api/supplies', suppliesRoutes);
 
 const PORT = process.env.PORT || 3000;
