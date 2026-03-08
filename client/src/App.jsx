@@ -31,34 +31,33 @@ function App() {
   }, []);
 
   useEffect(() => {
-    loadSurvivors(filters);
+    loadFilteredSurvivors();
   }, [filters]);
 
   async function loadInitialData() {
     try {
       setError("");
 
-      const [helloData, safehousesData, survivorsData, suppliesData] =
-        await Promise.all([
-          getHello(),
-          getSafehouses(),
-          getSurvivors(),
-          getSupplies(),
-        ]);
+      const [helloData, safehousesData, suppliesData] = await Promise.all([
+        getHello(),
+        getSafehouses(),
+        getSupplies(),
+      ]);
 
       setHelloMessage(helloData.message);
       setSafehouses(safehousesData);
-      setSurvivors(survivorsData);
       setSupplies(suppliesData);
+
+      await loadFilteredSurvivors();
     } catch (err) {
       setError(err.message);
     }
   }
 
-  async function loadSurvivors(currentFilters = {}) {
+  async function loadFilteredSurvivors() {
     try {
       setError("");
-      const survivorsData = await getSurvivors(currentFilters);
+      const survivorsData = await getSurvivors(filters);
       setSurvivors(survivorsData);
     } catch (err) {
       setError(err.message);
@@ -69,7 +68,7 @@ function App() {
     try {
       setError("");
       await createSurvivor(newSurvivor);
-      await loadSurvivors(filters);
+      await loadFilteredSurvivors();
     } catch (err) {
       setError(err.message);
     }
@@ -79,7 +78,7 @@ function App() {
     try {
       setError("");
       await deleteSurvivor(id);
-      await loadSurvivors(filters);
+      await loadFilteredSurvivors();
     } catch (err) {
       setError(err.message);
     }
