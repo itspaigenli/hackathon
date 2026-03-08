@@ -44,7 +44,7 @@ const router = express.Router();
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch safehouses
@@ -118,7 +118,7 @@ router.get("/", async (req, res) => {
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch safehouse
@@ -221,7 +221,7 @@ router.get("/:id", async (req, res) => {
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch survivors
@@ -317,7 +317,7 @@ router.get("/:id/survivors", async (req, res) => {
  *                              properties:
  *                                  code:
  *                                      type: integer
- *                                      example: 505
+ *                                      example: 500
  *                                  error:
  *                                      type: string
  *                                      example: Failed to fetch supplies
